@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TempGPT</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 10px;
+            width: 200px;
+        }
+
+        button {
+            display: block;
+            margin: 5px 0;
+            width: 100%;
+            padding: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <h3>TempGPT</h3>
+    <a>Status: <a id="current"></a></a>
+    <button id="disable-15min">Disable for 15 min</button>
+    <button id="disable-1hr">Disable for 1 hour</button>
+    <button id="disable-24hr">Disable for 24 hours</button>
+    <button id="disable-forever">Disable Permanently</button>
+    <button id="enable-now">Enable Now</button>
+    <script src="popup.js"></script>
+</body>
+
+</html>
