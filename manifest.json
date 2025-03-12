@@ -2,7 +2,7 @@
     "manifest_version": 3,
     "name": "TempGPT",
     "version": "1.3",
-    "description": "Automatically set ChatGPT to temporary chat mode, or redirect to a project, when opened",
+    "description": "Automatically set ChatGPT to temporary chat mode, or redirect to a project, when opened.",
     "permissions": [
         "storage",
         "scripting",
