@@ -16,7 +16,7 @@ jobs:
 
       - name: Prepare Extension Package
         run: |
-          zip -r addon.zip . -x "compliance/*" "temp/*" ".gitignore" "README.md" ".github/**/*"
+          zip -r addon.zip . -x "compliance/*" "temp/*" ".gitignore" "README.md"  ".github/*" ".github/**/*" ".git/*" ".git/**/*" $(git ls-files --others --ignored --exclude-standard)
 
       - name: Upload to Firefox Add-ons
         uses: wdzeng/firefox-addon@v1
