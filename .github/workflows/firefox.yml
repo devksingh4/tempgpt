@@ -1,0 +1,27 @@
+name: Release Firefox Extension
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Prepare Extension Package
+        run: |
+          zip -r addon.zip . -x "compliance/*" "temp/*" ".gitignore" "README.md" ".github/**/*"
+
+      - name: Upload to Firefox Add-ons
+        uses: wdzeng/firefox-addon@v1
+        with:
+          addon-guid: tempgpt@devksingh.com
+          xpi-path: addon.zip
+          self-hosted: false
+          jwt-issuer: ${{ secrets.FIREFOX_JWT_ISSUER }}
+          jwt-secret: ${{ secrets.FIREFOX_JWT_SECRET }}
