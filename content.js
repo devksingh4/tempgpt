@@ -1,14 +1,18 @@
-async function enableTemporaryChat() {
+async function handleChatGPT() {
     const isDisabled = await checkIfDisabled();
     if (isDisabled) return;
 
     const url = new URL(window.location.href);
+    const settings = await getChatSettings();
 
-    if (url.pathname === "/" && !url.searchParams.has("temporary-chat")) {
-        const button = document.querySelector('button[aria-label="Temporary"]');
-        
-        if (button && !button.disabled) {
-            button.click();
+    if (url.pathname === "/") {
+        if (settings.chatMode === 'temporary' && !url.searchParams.has("temporary-chat")) {
+            const tempButton = document.querySelector('button[aria-label="Temporary"]');
+            if (tempButton && !tempButton.disabled) {
+                tempButton.click();
+            }
+        } else if (settings.chatMode === 'project' && settings.projectId) {
+            window.location.href = `https://chatgpt.com/g/${settings.projectId}/project`;
         }
     }
 }
@@ -23,7 +27,17 @@ function checkIfDisabled() {
     });
 }
 
-const observer = new MutationObserver(enableTemporaryChat);
-observer.observe(document.body, { childList: true, subtree: true });
+function getChatSettings() {
+    return new Promise((resolve) => {
+        chrome.storage.local.get(["chatMode", "projectId"], (result) => {
+            resolve({
+                chatMode: result.chatMode || 'temporary',
+                projectId: result.projectId || ''
+            });
+        });
+    });
+}
 
-enableTemporaryChat();
+const observer = new MutationObserver(handleChatGPT);
+observer.observe(document.body, { childList: true, subtree: true });
+handleChatGPT();

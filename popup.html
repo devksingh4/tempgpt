@@ -9,7 +9,7 @@
         body {
             font-family: Arial, sans-serif;
             padding: 10px;
-            width: 200px;
+            width: 300px;
         }
 
         button {
@@ -19,17 +19,56 @@
             padding: 10px;
             cursor: pointer;
         }
+
+        .section {
+            margin-bottom: 15px;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 15px;
+        }
+
+        select {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+        }
+
+        .project-input {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            box-sizing: border-box;
+            display: none;
+        }
     </style>
 </head>
 
 <body>
     <h3>TempGPT</h3>
-    <a>Status: <a id="current"></a></a>
-    <button id="disable-15min">Disable for 15 min</button>
-    <button id="disable-1hr">Disable for 1 hour</button>
-    <button id="disable-24hr">Disable for 24 hours</button>
-    <button id="disable-forever">Disable Permanently</button>
-    <button id="enable-now">Enable Now</button>
+    <div class="section">
+        <p>Status: <span id="current"></span></p>
+        <button id="disable-15min">Disable for 15 min</button>
+        <button id="disable-1hr">Disable for 1 hour</button>
+        <button id="disable-24hr">Disable for 24 hours</button>
+        <button id="disable-forever">Disable Permanently</button>
+        <button id="enable-now">Enable Now</button>
+    </div>
+
+    <div class="section">
+        <h4>ChatGPT Settings</h4>
+        <label for="chat-mode">When extension is active:</label>
+        <select id="chat-mode">
+            <option value="temporary">Open Temporary Chat</option>
+            <option value="project">Open Specific Project</option>
+        </select>
+
+        <input type="text" id="project-id" class="project-input" placeholder="Enter project ID">
+        <p class="project-input"><small>Find project ID in the URL: chatgpt.com/g/[project-id]/project</small></p>
+        <p class="project-input"><small style="color: red;">If this ID is invalid, the extension will loop! Please make
+                sure the ID is valid
+                or disable the
+                extension if you end up in a loop.</small></p>
+    </div>
+
     <script src="popup.js"></script>
 </body>
 
