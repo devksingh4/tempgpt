@@ -5,7 +5,7 @@ async function handleChatGPT() {
     const url = new URL(window.location.href);
     const settings = await getChatSettings();
 
-    if (url.pathname === "/") {
+    if (url.pathname === "/" && settings.chatMode !== "nothing") {
         if (settings.chatMode === 'temporary' && !url.searchParams.has("temporary-chat")) {
             const tempButton = document.querySelector('button[aria-label="Temporary"]');
             if (tempButton && !tempButton.disabled) {
@@ -31,7 +31,7 @@ function getChatSettings() {
     return new Promise((resolve) => {
         chrome.storage.local.get(["chatMode", "projectId"], (result) => {
             resolve({
-                chatMode: result.chatMode || 'temporary',
+                chatMode: result.chatMode || 'nothing',
                 projectId: result.projectId || ''
             });
         });

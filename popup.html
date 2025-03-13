@@ -7,66 +7,209 @@
     <title>TempGPT</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            padding: 10px;
-            width: 300px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 15px;
+            width: 320px;
+            margin: 0;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        h3 {
+            margin-top: 0;
+            color: #2c3e50;
+            text-align: center;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #3498db;
+        }
+
+        .status-container {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .status-text {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+            background-color: #2ecc71;
         }
 
         button {
             display: block;
-            margin: 5px 0;
+            margin: 8px 0;
             width: 100%;
             padding: 10px;
             cursor: pointer;
+            border: none;
+            border-radius: 4px;
+            background-color: #3498db;
+            color: white;
+            font-weight: 500;
+            transition: background-color 0.2s;
         }
 
-        .section {
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        .button-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        #enable-now {
+            background-color: #2ecc71;
+            grid-column: span 2;
+        }
+
+        #enable-now:hover {
+            background-color: #27ae60;
+        }
+
+        #disable-forever {
+            background-color: #e74c3c;
+        }
+
+        #disable-forever:hover {
+            background-color: #c0392b;
+        }
+
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
             margin-bottom: 15px;
-            border-bottom: 1px solid #ccc;
-            padding-bottom: 15px;
+        }
+
+        .tab {
+            padding: 10px 15px;
+            cursor: pointer;
+            background-color: #f1f1f1;
+            border: 1px solid #ddd;
+            border-bottom: none;
+            border-radius: 5px 5px 0 0;
+            margin-right: 5px;
+            position: relative;
+            top: 1px;
+        }
+
+        .tab.active {
+            background-color: white;
+            border-bottom: 1px solid white;
+        }
+
+        .tab-content {
+            display: none;
+            background-color: white;
+            border-radius: 0 0 8px 8px;
+            padding: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        h4 {
+            margin-top: 0;
+            color: #2c3e50;
+            margin-bottom: 12px;
         }
 
         select {
             width: 100%;
-            padding: 8px;
-            margin: 5px 0;
+            padding: 10px;
+            margin: 8px 0;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            background-color: #f8f9fa;
         }
 
-        .project-input {
+        .project-input,
+        .project-input-claude {
             width: 100%;
-            padding: 8px;
-            margin: 5px 0;
+            padding: 10px;
+            margin: 8px 0;
             box-sizing: border-box;
             display: none;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+
+        small {
+            color: #7f8c8d;
+            display: block;
+            margin-top: 5px;
+        }
+
+        small.warning {
+            color: #e74c3c;
         }
     </style>
 </head>
 
 <body>
     <h3>TempGPT</h3>
-    <div class="section">
-        <p>Status: <span id="current"></span></p>
-        <button id="disable-15min">Disable for 15 min</button>
-        <button id="disable-1hr">Disable for 1 hour</button>
-        <button id="disable-24hr">Disable for 24 hours</button>
-        <button id="disable-forever">Disable Permanently</button>
-        <button id="enable-now">Enable Now</button>
+
+    <div class="status-container">
+        <div class="status-text">
+            <span class="status-indicator" id="status-dot"></span>
+            <span>Status: <strong><span id="current">Active</span></strong></span>
+        </div>
+
+        <div class="button-group">
+            <button id="disable-15min">15 min</button>
+            <button id="disable-1hr">1 hour</button>
+            <button id="disable-24hr">24 hours</button>
+            <button id="disable-forever">Permanent</button>
+            <button id="enable-now">Enable Now</button>
+        </div>
     </div>
 
-    <div class="section">
+    <div class="tabs">
+        <div class="tab active" data-tab="chatgpt">ChatGPT</div>
+        <div class="tab" data-tab="claude">Claude</div>
+    </div>
+
+    <div class="tab-content active" id="chatgpt-tab">
         <h4>ChatGPT Settings</h4>
         <label for="chat-mode">When extension is active:</label>
         <select id="chat-mode">
+            <option value="nothing">Do Nothing</option>
             <option value="temporary">Open Temporary Chat</option>
             <option value="project">Open Specific Project</option>
         </select>
 
         <input type="text" id="project-id" class="project-input" placeholder="Enter project ID">
-        <p class="project-input"><small>Find project ID in the URL: chatgpt.com/g/[project-id]/project</small></p>
-        <p class="project-input"><small style="color: red;">If this ID is invalid, the extension will loop! Please make
-                sure the ID is valid
-                or disable the
-                extension if you end up in a loop.</small></p>
+        <small class="project-input">Find project ID in the URL: chatgpt.com/g/[project-id]/project</small>
+        <small class="project-input warning">If this ID is invalid, the extension will loop! Please make sure the ID is
+            valid or disable the extension if you end up in a loop.</small>
+    </div>
+
+    <div class="tab-content" id="claude-tab">
+        <h4>Claude Settings</h4>
+        <label for="chat-mode-claude">When extension is active:</label>
+        <select id="chat-mode-claude">
+            <option value="nothing">Do Nothing</option>
+            <option value="project">Open Specific Project</option>
+        </select>
+
+        <input type="text" id="project-id-claude" class="project-input-claude" placeholder="Enter project ID">
+        <small class="project-input-claude">Find project ID in the URL: claude.ai/project/[project-id]</small>
+        <small class="project-input-claude warning">If this ID is invalid, the extension will loop! Please make sure the
+            ID is valid or disable the extension if you end up in a loop.</small>
     </div>
 
     <script src="popup.js"></script>
