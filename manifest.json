@@ -1,14 +1,10 @@
 {
     "manifest_version": 3,
     "name": "TempGPT",
-    "version": "1.6.2",
+    "version": "1.7",
     "description": "Automatically set ChatGPT and/or Claude to temporary chat mode, or redirect to a project, when opened.",
     "permissions": [
         "storage"
-    ],
-    "host_permissions": [
-        "https://chatgpt.com/*",
-        "https://claude.ai/*"
     ],
     "action": {
         "default_popup": "popup.html"
