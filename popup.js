@@ -66,7 +66,7 @@ function saveChatSettings() {
 
 function loadChatSettings() {
     chrome.storage.local.get(['chatMode', 'projectId', 'chatModeClaude', 'projectIdClaude'], (result) => {
-        const chatMode = result.chatMode || 'temporary';
+        const chatMode = result.chatMode || 'nothing';
         const projectId = result.projectId || '';
         const chatModeClaude = result.chatModeClaude || 'nothing';
         const projectIdClaude = result.projectIdClaude || '';
