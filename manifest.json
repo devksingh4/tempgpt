@@ -2,37 +2,21 @@
     "manifest_version": 3,
     "name": "TempGPT",
     "version": "1.7",
-    "description": "Automatically set ChatGPT and/or Claude to temporary chat mode, or redirect to a project, when opened.",
+    "description": "Automatically set ChatGPT and/or Claude to temporary chat mode, or redirect to a project when opened.",
     "permissions": [
-        "storage"
+        "storage",
+        "declarativeNetRequest"
     ],
+    "host_permissions": [
+        "https://chatgpt.com/*",
+        "https://claude.ai/*"
+    ],
+    "background": {
+        "service_worker": "background.js"
+    },
     "action": {
         "default_popup": "popup.html"
     },
-    "background": {
-        "service_worker": "background.js",
-        "scripts": [
-            "background.js"
-        ]
-    },
-    "content_scripts": [
-        {
-            "matches": [
-                "https://chatgpt.com/"
-            ],
-            "js": [
-                "content.js"
-            ]
-        },
-        {
-            "matches": [
-                "https://claude.ai/new"
-            ],
-            "js": [
-                "content_claude.js"
-            ]
-        }
-    ],
     "icons": {
         "48": "images/icon_48.png",
         "128": "images/icon_128.png"
