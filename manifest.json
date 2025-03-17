@@ -8,8 +8,8 @@
         "declarativeNetRequest"
     ],
     "host_permissions": [
-        "https://chatgpt.com/*",
-        "https://claude.ai/*"
+        "https://chatgpt.com/",
+        "https://claude.ai/new"
     ],
     "background": {
         "service_worker": "background.js"
