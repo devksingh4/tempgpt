@@ -48,10 +48,16 @@ async function updateRedirectRules() {
                         "url": `https://claude.ai/project/${settingsClaude.projectId}`
                     }
                 },
-                "condition": {
+                "conditions": [
+                {
                     "urlFilter": "https://claude.ai/new",
                     "resourceTypes": ["main_frame"]
+                },
+                {
+                    "urlFilter": "https://claude.ai/",
+                    "resourceTypes": ["main_frame"]
                 }
+                ]
             } : null
         ].filter(Boolean)
     });

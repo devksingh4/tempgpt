@@ -9,6 +9,7 @@
     ],
     "host_permissions": [
         "https://chatgpt.com/",
+        "https://claude.ai/",
         "https://claude.ai/new"
     ],
     "background": {
